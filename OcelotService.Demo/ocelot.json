@@ -15,7 +15,7 @@
         "Type": "RoundRobin"
       },
       "ReRouteIsCaseSensitive": false,
-      "Priority": 0,
+      "Priority": 2,
       "Key": "SpyData",
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "OcelotKey",
@@ -37,12 +37,30 @@
         "Type": "RoundRobin"
       },
       "ReRouteIsCaseSensitive": false,
-      "Priority": 0,
+      "Priority": 2,
       "Key": "TelData",
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "OcelotKey",
         "AllowedScopes": []
       }
+    },
+    {
+      "DownstreamPathTemplate": "/Auth",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 40004
+        }
+      ],
+      "UpstreamPathTemplate": "/Auth",
+      "UpstreamHttpMethod": [],
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      },
+      "ReRouteIsCaseSensitive": false,
+      "Priority": 1,
+      "Key": "Auth"
     }
   ],
   "Aggregates": [
@@ -51,7 +69,7 @@
         "TelData",
         "SpyData"
       ],
-      "UpstreamPathTemplate": "/{name}"
+      "UpstreamPathTemplate": "/open/{name}"
     }
   ],
   "DownstreamPathTemplate": "/",

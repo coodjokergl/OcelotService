@@ -12,6 +12,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ocelot.Common\Ocelot.Common.csproj" />
+    <ProjectReference Include="..\OcelotService.Demo\OcelotService.Demo.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Ocelot">
+      <HintPath>C:\Users\gongl01\.nuget\packages\ocelot\13.5.2\lib\netstandard2.0\Ocelot.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

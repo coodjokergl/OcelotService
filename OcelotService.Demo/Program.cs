@@ -7,10 +7,8 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Ocelot.DependencyInjection;
-using Ocelot.Middleware;
 
-namespace OcelotService
+namespace OcelotService.Demo
 {
     public class Program
     {
@@ -18,9 +16,7 @@ namespace OcelotService
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-            CreateWebHostBuilder(args)
-                .Build()
-                .Run();
+            CreateWebHostBuilder(args).Build().Run();
         }
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -30,7 +26,6 @@ namespace OcelotService
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-            //new WebHostBuilder()
                 .UseUrls("http://localhost:40000")
                 .UseStartup<Startup>();
     }
