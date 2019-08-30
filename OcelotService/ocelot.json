@@ -1,7 +1,12 @@
 {
   "ReRoutes": [],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:30001"
+    "BaseUrl": "http://localhost:30001",
+    "ServiceDiscoveryProvider": {
+      "Host": "localhost",
+      "Port": 30002,
+      "ConfigurationKey": "Service1"
+    }
   },
   "DownstreamPathTemplate": "/",
   "UpstreamPathTemplate": "/",
