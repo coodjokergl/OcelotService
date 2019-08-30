@@ -1,0 +1,10 @@
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:40001",
+    "ServiceDiscoveryProvider": {
+      "Host": "localhost",
+      "Port": 40005,
+      "ConfigurationKey": "Service1",
+      "Type": "PollConsul",
+      "PollingInterval": 100
+    }
+  },

@@ -7,23 +7,19 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Ocelot.DependencyInjection;
-using Ocelot.Middleware;
 
-namespace OcelotService
+namespace Service_10086
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args)
-                .Build()
-                .Run();
+            CreateWebHostBuilder(args).Build().Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            new WebHostBuilder()
-                .UseUrls("http://localhost:40000")
+            WebHost.CreateDefaultBuilder(args)
+                .UseUrls("http://localhost:40002")
                 .UseStartup<Startup>();
     }
 }

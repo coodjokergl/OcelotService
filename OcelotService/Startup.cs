@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -15,14 +16,13 @@ namespace OcelotService
 {
     public class Startup
     {
-
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true,reloadOnChange:true)
-                .AddJsonFile("ocelot.json" ,optional: true,reloadOnChange:true)
+                .AddJsonFile("ocelot.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
@@ -35,6 +35,19 @@ namespace OcelotService
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            var authenticationProviderKey = "OcelotKey";
+            var identityServerOptions = new IdentityServerOptions();
+            Configuration.Bind("IdentityServerOptions", identityServerOptions);
+            
+            services.AddAuthentication(identityServerOptions.IdentityScheme)
+                .AddIdentityServerAuthentication(authenticationProviderKey, options => {
+                    options.RequireHttpsMetadata = false; //是否启用https
+                    options.Authority = $"http://{identityServerOptions.ServerIP}:{identityServerOptions.ServerPort}";//配置授权认证的地址
+                    options.ApiName = identityServerOptions.ResourceName; //资源名称，跟认证服务中注册的资源列表名称中的apiResource一致
+                    options.SupportedTokens = SupportedTokens.Both;
+                }
+                );
+
             services
                 .AddOcelot(Configuration)
                 .AddConsul()
@@ -50,9 +63,6 @@ namespace OcelotService
                 app.UseDeveloperExceptionPage();
             }
             app.UseOcelot().Wait();
-            //app.Run(async (context) => {
-            //    await context.Response.WriteAsync("Hello World!");
-            //});
         }
     }
 }

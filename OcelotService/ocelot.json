@@ -1,13 +1,59 @@
 {
-  "ReRoutes": [],
-  "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:30001",
-    "ServiceDiscoveryProvider": {
-      "Host": "localhost",
-      "Port": 30002,
-      "ConfigurationKey": "Service1"
+  "ReRoutes": [
+    {
+      "DownstreamPathTemplate": "api/SpyData/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 40001
+        }
+      ],
+      "UpstreamPathTemplate": "SpyData/{everything}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      },
+      "ReRouteIsCaseSensitive": false,
+      "Priority": 0,
+      "Key": "SpyData",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "OcelotKey",
+        "AllowedScopes": [ "OcelotApi" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "api/TelData/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 40002
+        }
+      ],
+      "UpstreamPathTemplate": "TelData/{everything}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      },
+      "ReRouteIsCaseSensitive": false,
+      "Priority": 0,
+      "Key": "TelData",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "OcelotKey",
+        "AllowedScopes": [ "OcelotApi" ]
+      }
     }
-  },
+  ],
+  "Aggregates": [
+    {
+      "ReRouteKeys": [
+        "TelData",
+        "SpyData"
+      ],
+      "UpstreamPathTemplate": "/{id}"
+    }
+  ],
   "DownstreamPathTemplate": "/",
   "UpstreamPathTemplate": "/",
   "UpstreamHttpMethod": [
@@ -23,35 +69,5 @@
     "Region": ""
   },
   "ReRouteIsCaseSensitive": false,
-  "ServiceName": "",
-  "DownstreamScheme": "http",
-  "DownstreamHostAndPorts": [
-    {
-      "Host": "localhost",
-      "Port": 13699
-    }
-  ],
-  "QoSOptions": {
-    "ExceptionsAllowedBeforeBreaking": 0,
-    "DurationOfBreak": 0,
-    "TimeoutValue": 0
-  },
-  "LoadBalancer": "",
-  "RateLimitOptions": {
-    "ClientWhitelist": [],
-    "EnableRateLimiting": false,
-    "Period": "",
-    "PeriodTimespan": 0,
-    "Limit": 0
-  },
-  "AuthenticationOptions": {
-    "AuthenticationProviderKey": "",
-    "AllowedScopes": []
-  },
-  "HttpHandlerOptions": {
-    "AllowAutoRedirect": true,
-    "UseCookieContainer": true,
-    "UseTracing": true
-  },
   "DangerousAcceptAnyServerCertificateValidator": false
 }
